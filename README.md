@@ -12,7 +12,7 @@ It demonstrates how network segmentation, NAT, firewall rules, and vulnerable se
 
 ## 🏗 Architecture Overview
 
-![](./images/2026-02-28 155210.png)
+![2026-02-28 155210](./images/2026-02-28 155210.png)
 
 ### Network Segments
 
