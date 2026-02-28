@@ -1,36 +1,171 @@
 # Three-Tier-Network-Attack-Lab
 
-# 三层网络攻击靶场
+A self-built enterprise-style three-tier penetration testing lab.
 
-本仓库包含一个完整的网络安全实验环境，模拟"外网攻击 → 代理穿透 → 内网横向"的攻击链路。
+This project simulates a realistic attack path:
 
-## 环境构成
-- 攻击机 (Kali) - 外网
-- 代理机 (Kali) - 跳板机，IP: 192.168.2.10
-- 内网机 (Kali) - 目标机，IP: 192.168.3.10
+External Attacker → Jump Host (Proxy) → Isolated Internal Target
 
-## 漏洞设计
-- 代理机：弱口令SSH (student/students) + Redis未授权访问
-- 内网机：Flask SSTI漏洞 + RCE + 文件读取
+It demonstrates how network segmentation, NAT, firewall rules, and vulnerable services interact in a controlled offensive security lab.
 
-## 文件说明
-- `实验报告.md` - 完整的环境搭建过程、漏洞构造细节、攻击复现步骤
+---
 
-- `images/` - 报告中的配图
+## 🏗 Architecture Overview
 
-- `attack-vm` - 攻击机
+![](./images/屏幕截图 2026-02-28 155210.png)
 
-  链接：https://pan.quark.cn/s/544ffe5e29be 提取码：gwSi
+### Network Segments
 
-- `proxy-vm` - 代理机
+- Attacker Machine (Kali) – 192.168.36.x
+- Proxy / Jump Host – 192.168.2.10
+- Internal Target – 192.168.3.10
 
-  链接：https://pan.quark.cn/s/2ecbb90052e8 提取码：Ta1n
+### Isolation Design
 
-- ` internal-vm` - 内网机
+- Attacker cannot directly access internal network
+- Proxy acts as NAT gateway and firewall
+- Internal machine has no internet access
+- Traffic strictly controlled via iptables
 
-  链接：https://pan.quark.cn/s/4f5b19734cb8 提取码：B4bC
+---
 
-## 快速使用
-详见实验报告。
+## 🔥 Vulnerabilities Implemented
 
-虚拟机账号密码均为kali。
+### Proxy Machine
+
+- Weak password SSH (student / students)
+- Redis unauthorized access (no authentication)
+
+### Internal Machine
+
+- Vulnerable Flask Web Application
+  - SSTI (Server-Side Template Injection)
+  - Arbitrary File Read
+  - Remote Command Execution (RCE)
+
+---
+
+## ⚔ Attack Flow
+
+1. Brute-force SSH → Gain proxy access
+2. Abuse Redis misconfiguration
+3. Port forwarding via socat
+4. Exploit Flask SSTI
+5. Achieve RCE
+6. Capture internal flag
+
+---
+
+## 🛠 Key Technical Skills Demonstrated
+
+- Linux network routing
+- Static IP & persistent configuration
+- NAT (SNAT via iptables)
+- Firewall rule design (INPUT / FORWARD chains)
+- Service persistence via systemd
+- Offline dependency installation (Flask)
+- Exploitation of Redis misconfiguration
+- SSTI to RCE exploitation chain
+
+---
+
+## 📂 Project Structure
+
+Three-Tier-Network-Attack-Lab/
+ │
+ ├── README.md
+ ├── docs/
+ │   ├── architecture.md
+ │   ├── environment-setup.md
+ │   ├── network-isolation.md
+ │   ├── vulnerability-design.md
+ │   └── attack-walkthrough.md
+ │
+ ├── vulns/
+ │   └── flask-app/
+ │       └── app.py
+ │
+ ├── images/
+ │
+ └── vm-download.md
+
+---
+
+## 🚀 How to Reproduce
+
+1. Download VM images (see vm-download.md)
+2. Configure network interfaces
+3. Apply routing & firewall rules
+4. Start vulnerable services
+5. Follow attack walkthrough in docs/
+
+---
+
+## 🎯 Learning Outcome
+
+This lab helps learners understand:
+
+- How multi-segment enterprise networks are structured
+- How network isolation is implemented in practice
+- How attackers pivot from DMZ to internal network
+- How web vulnerabilities lead to full compromise
+
+---
+
+## ⚠ Disclaimer
+
+This project is for educational and research purposes only.
+Do not deploy in production environments.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
