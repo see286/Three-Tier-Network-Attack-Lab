@@ -12,7 +12,7 @@ It outlines static IP setup via nmcli for persistent network configuration acros
 
 虚拟机比较好准备令人比较头疼的是网卡的设置，首先我们需要一个192.168.2.和一个192.168.3.的IP地址还有一个无要求的net，所以我们需要先把该IP的网卡配置好，打开VM的菜单栏里面的“编辑”找到“虚拟网络编辑器”我们放管理员权限后向里面添加两个所需网卡如图：
 
-![image-20251125234918885](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251125234918885.png)
+![image-20251125234918885](../images/image-20251125234918885.png)
 
 VMnet2和Vmnet3是我自己加的，分别填子网地址作为所需网卡
 
@@ -24,15 +24,15 @@ VMnet2和Vmnet3是我自己加的，分别填子网地址作为所需网卡
 
 *攻击机：*因为其是net模式，所以开机前先确定它是不是net不是换成net就ok了
 
-![image-20251125235857333](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251125235857333.png)
+![image-20251125235857333](../images/image-20251125235857333.png)
 
 *代理机*：代理机的作用比较多，从上面的分析我们可以得出来首先需要一个net网卡；因为其IP是固定的所以我们还需要加一个配置其IP(192.168.2)的网卡(VMnet2)；又因为代理机需要和内网相连，所以代理机通内网IP(192.168.3)，所以我们还需要加一个网卡(VMnet3)
 
-![image-20251126000455656](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251126000455656.png)
+![image-20251126000455656](../images/image-20251126000455656.png)
 
 内网机：由于其不能联网所以不需要net网卡；又因为其IP是固定的所以我们还需要加一个配置其IP(192.168.3)的网卡(VMnet3)
 
-![image-20251126000618085](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251126000618085.png)
+![image-20251126000618085](../images/image-20251126000618085.png)
 
 ## 系统的配置
 
@@ -48,7 +48,7 @@ ip a
 
 在这里放一个例子：
 
-![image-20251126002244072](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251126002244072.png)
+![image-20251126002244072](../images/image-20251126002244072.png)
 
 (运行出来大概长这样，我的IP是以及配置好了的配置之前应该eth1和eth2里面没有IP地址)
 
@@ -58,7 +58,7 @@ ip a
 nmcli con show
 ```
 
-![image-20251126003033433](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251126003033433.png)
+![image-20251126003033433](../images/image-20251126003033433.png)
 
 (输出大概长这样，这也是配置好了的)
 

